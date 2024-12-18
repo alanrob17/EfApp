@@ -30,7 +30,10 @@ namespace EfApp.Repositories
 
         public async Task<IEnumerable<Record>>? GetArtistRecordsAsync(int artistId)
         {
-            return await _context.Records.Where(r => r.ArtistId == artistId).OrderByDescending(r => r.Recorded).ToListAsync();
+            return await _context.Records.Where(r => r.ArtistId == artistId)
+                .Include(a => a.ArtistAsset)
+                .OrderByDescending(r => r.Recorded)
+                .ToListAsync();
         }
 
         public async Task<Record?> GetRecordByIdAsync(int recordId)
