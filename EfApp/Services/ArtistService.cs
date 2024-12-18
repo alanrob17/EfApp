@@ -29,7 +29,7 @@ namespace EfApp.Services
 
         public async Task<Artist> GetArtistByIdAsync(int artistId)
         {
-            return await Task.Run(() => _artistRepository.GetByIdAsync(artistId));
+            return await Task.Run(() => _artistRepository.GetByArtistIdAsync(artistId));
         }
 
         public async Task<Artist> GetArtistByNameAsync(string name)

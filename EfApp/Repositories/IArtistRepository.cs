@@ -5,7 +5,7 @@ namespace EfApp.Repositories
     public interface IArtistRepository
     {
         Task AddArtistAsync(Artist artist);
-        Task<Artist> GetByIdAsync(int artistId);
+        Task<Artist> GetByArtistIdAsync(int artistId);
         Task<Artist> GetByNameAsync(string Name);
         Task<IEnumerable<Artist>> GetAllArtistsAsync();
         Task UpdateAsync(Artist artist);

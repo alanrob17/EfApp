@@ -9,8 +9,9 @@ namespace EfApp.Repositories
 {
     public interface IRecordRepository
     {
-        // Task AddRecordAsync(Record record);
+        Task AddRecordAsync(Record record);
         Task<IEnumerable<Record>> GetAllRecordsAsync();
-        Task<Record>? GetRecordByIdAsync(int recordId);
+        Task<IEnumerable<Record>>? GetArtistRecordsAsync(int artistId);
+        Task<Record>? GetRecordByIdAsync(int recordId);        
     }
 }

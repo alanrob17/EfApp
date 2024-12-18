@@ -22,7 +22,7 @@ namespace EfApp.Repositories
 
         public async Task<IEnumerable<Artist>> GetAllArtistsAsync()
         {
-            return await _context.Artists.ToListAsync();
+            return await _context.Artists.  ToListAsync();
         }
 
         public async Task UpdateAsync(Artist artist)
@@ -41,7 +41,7 @@ namespace EfApp.Repositories
         }
 
         // public async Task<Artist?> GetByIdAsync(int artistId) => await _context.Artists.FindAsync(artistId);
-        public async Task<Artist?> GetByIdAsync(int artistId)
+        public async Task<Artist?> GetByArtistIdAsync(int artistId)
         {
             return await _context.Artists
                 .Include(a => a.Records)
