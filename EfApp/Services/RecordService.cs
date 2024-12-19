@@ -37,10 +37,19 @@ namespace EfApp.Services
             return await Task.Run(() => _recordRepository.GetArtistRecordsAsync(artistId));
         }
 
-        //public async Task AddRecordAsync(Record record)
-        //{
-        //    await Task.Run(() => _recordRepository.AddRecordAsync(record));
-        //}
+        public async Task UpdateRecordAsync(Record record)
+        {
+            await Task.Run(() => _recordRepository.UpdateAsync(record));
+        }
 
+        internal async Task DeleteRecordAsync(Record record)
+        {
+            await Task.Run(() => _recordRepository.DeleteAsync(record));
+        }
+
+        internal async Task<IEnumerable<Record>> GetRecordByNameAsync(string name)
+        {
+            return await Task.Run(() => _recordRepository.GetRecordByNameAsync(name));
+        }
     }
 }

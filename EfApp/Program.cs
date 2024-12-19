@@ -32,12 +32,11 @@ namespace EfApp
                 .AddScoped<AppLogger>() // Register AppLogger
                 .AddLogging(loggingBuilder =>
                 {
-                    loggingBuilder.ClearProviders(); // Optional: Clears default providers
-                    loggingBuilder.AddConsole();      // Add console logging
+                    loggingBuilder.ClearProviders();
+                    loggingBuilder.AddConsole(); // Add console logging
                 })
                 .BuildServiceProvider();
 
-            // Use the service provider to get an instance of IProductRepository
             using (var scope = serviceProvider.CreateScope())
             {
                 var artistService = scope.ServiceProvider.GetRequiredService<ArtistService>();
@@ -50,8 +49,8 @@ namespace EfApp
                 var recordTest = new RecordTest(recordService, appLogger);
                 await recordTest.RunTestsAsync();
 
-                var artistRecordTest = new ArtistRecordTest(artistService, recordService, appLogger);
-                await artistRecordTest.RunTestsAsync();
+                //var artistRecordTest = new ArtistRecordTest(artistService, recordService, appLogger);
+                //await artistRecordTest.RunTestsAsync();
             }
         }
     }

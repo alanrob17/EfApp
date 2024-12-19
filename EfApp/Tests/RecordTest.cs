@@ -1,6 +1,7 @@
 ﻿using EfApp.Models;
 using EfApp.Services;
 using EfApp.Utilities;
+using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -94,6 +95,50 @@ namespace EfApp.Tests
             //        _appLogger.LogInformation($"{item.Key} - {item.Value}");
             //    }
             //}
+
+            //// Updates a record by RecordId
+            //var recordId = 5286;
+            //var updateRecord = await _recordService.GetRecordByIdAsync(recordId);
+            //if (updateRecord != null)
+            //{
+            //    _appLogger.LogInformation(updateRecord.ToString());
+
+            //    string dateString = "2022-01-21";
+            //    DateTime boughtDate = DateTime.Parse(dateString);
+
+            //    updateRecord.Name = "A Lot Of Fun Aloud";
+            //    updateRecord.Field = "Jazz";
+            //    updateRecord.Recorded = 2020;
+            //    updateRecord.Label = "Woppo";
+            //    updateRecord.Pressing = "Jap";
+            //    updateRecord.Rating = "***";
+            //    updateRecord.Discs = 1;
+            //    updateRecord.Media = "CD";
+            //    updateRecord.Bought = boughtDate;
+            //    updateRecord.Cost = 23.99m;
+            //    updateRecord.CoverName = null;
+            //    updateRecord.Review = "This is James' second album";
+
+            //    await _recordService.UpdateRecordAsync(updateRecord);
+            //    _appLogger.LogInformation("Record updated.");
+            //}
+
+            //// Delete a Record by RecordId
+            //var recordId = 5285;
+            //record = await _recordService.GetRecordByIdAsync(recordId);
+
+            //if (record != null)
+            //{
+            //    await _recordService.DeleteRecordAsync(record);
+            //    _appLogger.LogInformation("Record deleted.");
+            //}
+
+            //// Get a Record by its Name
+            records = await _recordService.GetRecordByNameAsync("blonde on Blonde");
+            foreach (var currentRecord in records)
+            {
+                _appLogger.LogInformation(currentRecord.ToString());
+            }
         }
 
         private static Dictionary<int, string>? GetRecordDictionary(Dictionary<int, string> recordDictionary, IEnumerable<Record> records)

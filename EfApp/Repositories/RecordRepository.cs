@@ -23,6 +23,15 @@ namespace EfApp.Repositories
             await _context.SaveChangesAsync();
         }
 
+        public async void DeleteAsync(Record record)
+        {
+            if (record != null)
+            {
+                _context.Records.Remove(record);
+                await _context.SaveChangesAsync();
+            }
+        }
+
         public async Task<IEnumerable<Record>> GetAllRecordsAsync()
         {
             return await _context.Records.ToListAsync();
@@ -43,10 +52,17 @@ namespace EfApp.Repositories
                 .FirstOrDefaultAsync(r => r.RecordId == recordId);
         }
 
-        //public async Task AddRecordAsync(Record record)
-        //{
-        //    _context.Records.Add(record);
-        //    await _context.SaveChangesAsync();
-        //}
+        public async Task<IEnumerable<Record>> GetRecordByNameAsync(string name)
+        {
+            return await _context.Records
+                .Where(r => EF.Functions.Like(r.Name.ToLower(), $"%{name.ToLower()}%"))
+                .ToListAsync();
+        }
+
+        public async Task UpdateAsync(Record record)
+        {
+            _context.Records.Update(record);
+            await _context.SaveChangesAsync();
+        }
     }
 }

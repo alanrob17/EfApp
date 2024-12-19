@@ -50,7 +50,7 @@ namespace EfApp.Models
 
         public string? Review { get; set; }
 
-        public virtual Artist ArtistAsset { get; set;  } = new Artist();
+        public virtual Artist ArtistAsset { get; } = new Artist();
 
         public override string ToString()
         {

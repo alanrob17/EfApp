@@ -107,6 +107,12 @@ namespace EfApp.Tests
             //// Get the number of Artists with no biography
             //var total = await _artistService.GetNoBiographyTotal();
             //_appLogger.LogInformation(total.ToString());
+
+            // Write Artist Html
+            //var artistId = 114;
+            //artist = await _artistService.GetArtistByIdAsync(artistId);
+            //var message = artist?.ArtistId > 0 ? $"<p><strong>Id:</strong> {artist.ArtistId}</p>\n<p><strong>Name:</strong> {artist.FirstName} {artist.LastName}</p>\n<p><strong>Biography:</strong></p>\n<div>{artist.Biography}</p></div>" : "ERROR: Artist not found!";
+            //_appLogger.LogInformation(message);
         }
 
         private static Dictionary<int, string> GetArtistDictionary(Dictionary<int, string> artistDictionary, IEnumerable<Artist> artists)
