@@ -134,11 +134,23 @@ namespace EfApp.Tests
             //}
 
             //// Get a Record by its Name
-            records = await _recordService.GetRecordByNameAsync("blonde on Blonde");
-            foreach (var currentRecord in records)
-            {
-                _appLogger.LogInformation(currentRecord.ToString());
-            }
+            //records = await _recordService.GetRecordByNameAsync("blonde on Blonde");
+            //foreach (var currentRecord in records)
+            //{
+            //    _appLogger.LogInformation(currentRecord.ToString());
+            //}
+
+            //// Get Records by year e.g. 1974
+            //var year = 1974;
+            //records = await _recordService.GetRecordsByYearAsync(year);
+            //foreach (var currentRecord in records)
+            //{
+            //    _appLogger.LogInformation(currentRecord.ToString());
+            //}
+
+            //// Get Total Number of CD's in my collection
+            int total = await _recordService.GetTotalNumberOfCDsAsync();
+            _appLogger.LogInformation($"Total number of CD's: {total}.");  // 1477
         }
 
         private static Dictionary<int, string>? GetRecordDictionary(Dictionary<int, string> recordDictionary, IEnumerable<Record> records)

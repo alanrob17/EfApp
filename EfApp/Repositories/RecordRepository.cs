@@ -56,13 +56,33 @@ namespace EfApp.Repositories
         {
             return await _context.Records
                 .Where(r => EF.Functions.Like(r.Name.ToLower(), $"%{name.ToLower()}%"))
-                .ToListAsync();
+                .OrderBy(r => r.RecordId).ToListAsync();
         }
 
         public async Task UpdateAsync(Record record)
         {
             _context.Records.Update(record);
             await _context.SaveChangesAsync();
+        }
+
+        public async Task<IEnumerable<Record>> GetRecordsByYearAsync(int year)
+        {
+            return await _context.Records
+                .Where(r => r.Recorded == year)
+                .ToListAsync();
+        }
+        public async Task<int> GetTotalNumberOfCDsAsync()
+        {
+            try
+            {
+                return await _context.Records
+                    .Where(r => r.Media == "CD")
+                    .SumAsync(r => r.Discs);
+            }
+            catch (Exception ex)
+            {
+                return 0;
+            }
         }
     }
 }

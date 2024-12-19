@@ -51,5 +51,15 @@ namespace EfApp.Services
         {
             return await Task.Run(() => _recordRepository.GetRecordByNameAsync(name));
         }
+
+        internal async Task<IEnumerable<Record>> GetRecordsByYearAsync(int year)
+        {
+            return await Task.Run(() => _recordRepository.GetRecordsByYearAsync(year));
+        }
+
+        internal async Task<int> GetTotalNumberOfCDsAsync()
+        {
+            return await Task.Run(() => _recordRepository.GetTotalNumberOfCDsAsync());
+        }
     }
 }

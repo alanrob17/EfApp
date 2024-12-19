@@ -15,6 +15,8 @@ namespace EfApp.Repositories
         Task<IEnumerable<Record>>? GetArtistRecordsAsync(int artistId);
         Task<Record>? GetRecordByIdAsync(int recordId);
         Task<IEnumerable<Record>>? GetRecordByNameAsync(string name);
+        Task<IEnumerable<Record>> GetRecordsByYearAsync(int year);
         Task UpdateAsync(Record record);
+        Task<int> GetTotalNumberOfCDsAsync();
     }
 }
