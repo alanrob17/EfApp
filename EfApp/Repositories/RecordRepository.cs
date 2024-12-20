@@ -40,7 +40,6 @@ namespace EfApp.Repositories
         public async Task<IEnumerable<Record>>? GetArtistRecordsAsync(int artistId)
         {
             return await _context.Records.Where(r => r.ArtistId == artistId)
-                .Include(a => a.ArtistAsset)
                 .OrderByDescending(r => r.Recorded)
                 .ToListAsync();
         }
@@ -48,7 +47,6 @@ namespace EfApp.Repositories
         public async Task<Record?> GetRecordByIdAsync(int recordId)
         {
             return await _context.Records
-                .Include(r => r.ArtistAsset)
                 .FirstOrDefaultAsync(r => r.RecordId == recordId);
         }
 
@@ -83,6 +81,112 @@ namespace EfApp.Repositories
             {
                 return 0;
             }
+        }
+        public async Task<int> GetTotalNumberOfDiscsAsync()
+        {
+            try
+            {
+                return await _context.Records.SumAsync(r => r.Discs);
+            }
+            catch (Exception ex)
+            {
+                return 0;
+            }
+        }
+        public async Task<int> GetTotalNumberOfRecordsAsync()
+        {
+            try
+            {
+                return await _context.Records
+                    .Where(r => r.Media == "R")
+                    .SumAsync(r => r.Discs);
+            }
+            catch (Exception ex)
+            {
+                return 0;
+            }
+        }
+        public async Task<int> GetTotalNumberOfBluraysAsync()
+        {
+            try
+            {
+                return await _context.Records
+                    .Where(r => r.Media.Contains("Blu-ray"))
+                    .SumAsync(r => r.Discs);
+            }
+            catch (Exception ex)
+            {
+                return 0;
+            }
+        }
+        public async Task<int> GetTotalNumberOfDVDsAsync()
+        {
+            try
+            {
+                return await _context.Records
+                    .Where(r => r.Media.Contains("DVD"))
+                    .SumAsync(r => r.Discs);
+            }
+            catch (Exception ex)
+            {
+                return 0;
+            }
+        }
+        public async Task<int> GetArtistNumberOfRecordsAsync(int artistId)
+        {
+            return await _context.Records
+                .Where(r => r.ArtistId == artistId)
+                .SumAsync(r => r.Discs);
+        }
+        public async Task<int> GetTotalDiscsByYearAsync(int year)
+        {
+            try
+            {
+                return await _context.Records
+                    .Where(r => r.Recorded == year)
+                    .SumAsync(r => r.Discs);
+            }
+            catch (Exception ex)
+            {
+                return 0;
+            }
+        }
+        public async Task<int> GetTotalDiscsByBoughtYearAsync(int year)
+        {
+            try
+            {
+                var previousYearString = $"{year - 1}-12-31";
+                DateTime previousDate = DateTime.Parse(previousYearString);
+                var endYearString = $"{year + 1}-01-01";
+                DateTime endDate = DateTime.Parse(endYearString);
+                return await _context.Records
+                    .Where(r => r.Bought > previousDate && r.Bought < endDate)
+                    .SumAsync(r => r.Discs);
+            }
+            catch (Exception ex)
+            {
+                return 0;
+            }
+        }
+        public async Task<int> GetNoRecordReviewCountAsync()
+        {
+            try
+            {
+                return await _context.Records
+                    .Where(r => string.IsNullOrEmpty(r.Review))
+                    .CountAsync();
+            }
+            catch (Exception ex)
+            {
+                return 0;
+            }
+        }
+
+        public async Task<IEnumerable<Record>> GetAllNoReviewRecordsAsync()
+        {
+            return await _context.Records
+                .Where(r => string.IsNullOrEmpty(r.Review))
+                .ToListAsync();
         }
     }
 }

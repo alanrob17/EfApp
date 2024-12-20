@@ -50,8 +50,6 @@ namespace EfApp.Models
 
         public string? Review { get; set; }
 
-        public virtual Artist ArtistAsset { get; } = new Artist();
-
         public override string ToString()
         {
             return $"Id: {RecordId}, ArtistId: {ArtistId}, Recorded: {Recorded}, Record: {Name}, Rating: {Rating}, Bought: {Bought}, Cost: ${Cost}";

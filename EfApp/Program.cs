@@ -49,8 +49,8 @@ namespace EfApp
                 var recordTest = new RecordTest(recordService, appLogger);
                 await recordTest.RunTestsAsync();
 
-                //var artistRecordTest = new ArtistRecordTest(artistService, recordService, appLogger);
-                //await artistRecordTest.RunTestsAsync();
+                var artistRecordTest = new ArtistRecordTest(artistService, recordService, appLogger);
+                await artistRecordTest.RunTestsAsync();
             }
         }
     }

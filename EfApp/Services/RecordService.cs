@@ -61,5 +61,50 @@ namespace EfApp.Services
         {
             return await Task.Run(() => _recordRepository.GetTotalNumberOfCDsAsync());
         }
+
+        internal async Task<int> GetTotalNumberOfDiscsAsync()
+        {
+            return await Task.Run(() => _recordRepository.GetTotalNumberOfDiscsAsync());
+        }
+
+        internal async Task<int> GetTotalNumberOfRecordsAsync()
+        {
+            return await Task.Run(() => _recordRepository.GetTotalNumberOfRecordsAsync());
+        }
+
+        internal async Task<int> GetTotalNumberOfBluraysAsync()
+        {
+            return await Task.Run(() => _recordRepository.GetTotalNumberOfBluraysAsync());
+        }
+
+        internal async Task<int> GetTotalNumberOfDVDsAsync()
+        {
+            return await Task.Run(() => _recordRepository.GetTotalNumberOfDVDsAsync());
+        }
+
+        internal async Task<int> GetArtistNumberOfRecordsAsync(int artistId)
+        {
+            return await Task.Run(() => _recordRepository.GetArtistNumberOfRecordsAsync(artistId));
+        }
+
+        internal async Task<int> GetTotalDiscsByYearAsync(int year)
+        {
+            return await Task.Run(() => _recordRepository.GetTotalDiscsByYearAsync(year));
+        }
+
+        internal async Task<int> GetTotalDiscsByBoughtYearAsync(int year)
+        {
+            return await Task.Run(() => _recordRepository.GetTotalDiscsByBoughtYearAsync(year));
+        }
+
+        internal async Task<int> GetNoRecordReviewCountAsync()
+        {
+            return await Task.Run(() => _recordRepository.GetNoRecordReviewCountAsync());
+        }
+
+        internal async Task<IEnumerable<Record>> GetAllNoReviewRecordsAsync()
+        {
+            return await Task.Run(() => _recordRepository.GetAllNoReviewRecordsAsync());
+        }
     }
 }

@@ -57,36 +57,11 @@ namespace EfApp.Tests
 
             //await _recordService.AddRecordAsync(newRecord);
 
-            //// Get Record by Id
-            //record = await _recordService.GetRecordByIdAsync(5286);
-            //if (record != null)
-            //{
-            //    if (record.ArtistAsset != null)
-            //    {
-            //        _appLogger.LogInformation($"Artist: {record.ArtistAsset.Name}");
-            //        _appLogger.LogInformation(record.ToString());
-            //    }
-            //    else
-            //    {
-            //        _appLogger.LogInformation("No Record found for this RecordId.");
-            //    }
-            //}
-
-            //// Get an Artist and their Records by ArtistId
-            //var artistRecords = await _recordService.GetArtistRecordsAsync(114);
-            //foreach (var currentRecord in artistRecords)
-            //{
-            //    _appLogger.LogInformation(currentRecord.ToString());
-            //}
-
             //// Get the Record dropdown list for an Artist
             //var recordDictionary = new Dictionary<int, string>();
             //var artistId = 114;
             //records = await _recordService.GetArtistRecordsAsync(artistId);
             //recordDictionary = GetRecordDictionary(recordDictionary, records);
-
-            //record = records.First();
-            //_appLogger.LogInformation(record.ArtistAsset.ToString());
 
             //if (recordDictionary != null)
             //{
@@ -149,8 +124,46 @@ namespace EfApp.Tests
             //}
 
             //// Get Total Number of CD's in my collection
-            int total = await _recordService.GetTotalNumberOfCDsAsync();
-            _appLogger.LogInformation($"Total number of CD's: {total}.");  // 1477
+            //int total = await _recordService.GetTotalNumberOfCDsAsync();
+            //_appLogger.LogInformation($"Total number of CD's: {total}.");
+
+            //// Get the Total Number Of Discs. This includes all media types.
+            //int total = await _recordService.GetTotalNumberOfDiscsAsync();
+            //_appLogger.LogInformation($"Total number of Disc's: {total}.");
+
+            //// Get the Total Number Of Records. Media type is "R"
+            //int total = await _recordService.GetTotalNumberOfRecordsAsync();
+            //_appLogger.LogInformation($"Total number of Records: {total}.");
+
+            //// Get the Total Number Of Blurays where Media type contains "Blu-ray"
+            //int total = await _recordService.GetTotalNumberOfBluraysAsync();
+            //_appLogger.LogInformation($"Total number of Blu-rays: {total}.");
+
+            //// Get the number of DVD's where Media type is "DVD"
+            //int total = await _recordService.GetTotalNumberOfDVDsAsync();
+            //_appLogger.LogInformation($"Total number of DVD's: {total}.");
+
+            ////// Get the sum Disc Count For a particular Year e.g. 1974
+            //var year = 1974;
+            //int total = await _recordService.GetTotalDiscsByYearAsync(year);
+            //_appLogger.LogInformation($"Total number of discs for {year}: {total}.");
+
+            //// Get the Disc Count where Records were bought for a particular Year e.g. 2000
+            //int year = 2015;
+            //int total = await _recordService.GetTotalDiscsByBoughtYearAsync(year);
+            //_appLogger.LogInformation($"Total number of discs bought in {year}: {total} discs.");
+
+            //// Get the total number of Record.Review where the Review is not null or empty
+            //int total = await _recordService.GetNoRecordReviewCountAsync();
+            //_appLogger.LogInformation($"Total number of Records with no Review: {total}.");
+
+            // Get a List of Record with null or empty Review
+            records = await _recordService.GetAllNoReviewRecordsAsync();
+            _appLogger.LogInformation("Records with no Review:");
+            foreach (var currentRecord in records)
+            {
+                _appLogger.LogInformation(currentRecord.ToString());
+            }
         }
 
         private static Dictionary<int, string>? GetRecordDictionary(Dictionary<int, string> recordDictionary, IEnumerable<Record> records)
