@@ -94,7 +94,7 @@ namespace EfApp.Services
 
         internal async Task<int> GetTotalDiscsByBoughtYearAsync(int year)
         {
-            return await Task.Run(() => _recordRepository.GetTotalDiscsByBoughtYearAsync(year));
+            return await Task.Run(() => _recordRepository.GetTotalDiscsByYearBoughtAsync(year));
         }
 
         internal async Task<int> GetNoRecordReviewCountAsync()
@@ -105,6 +105,11 @@ namespace EfApp.Services
         internal async Task<IEnumerable<Record>> GetAllNoReviewRecordsAsync()
         {
             return await Task.Run(() => _recordRepository.GetAllNoReviewRecordsAsync());
+        }
+
+        internal async Task<decimal> GetTotalCostByYearBoughtAsync(int year)
+        {
+            return await Task.Run(() => _recordRepository.GetTotalCostByYearBoughtAsync(year));
         }
     }
 }

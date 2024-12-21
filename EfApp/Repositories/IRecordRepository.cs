@@ -24,8 +24,9 @@ namespace EfApp.Repositories
         Task<int>? GetTotalNumberOfDVDsAsync();
         Task<int>? GetArtistNumberOfRecordsAsync(int artistId);
         Task<int>? GetTotalDiscsByYearAsync(int year);
-        Task<int>? GetTotalDiscsByBoughtYearAsync(int year);
+        Task<int>? GetTotalDiscsByYearBoughtAsync(int year);
         Task<int>? GetNoRecordReviewCountAsync();
         Task<IEnumerable<Record>> GetAllNoReviewRecordsAsync();
+        Task<decimal>? GetTotalCostByYearBoughtAsync(int year);
     }
 }

@@ -151,7 +151,7 @@ namespace EfApp.Repositories
                 return 0;
             }
         }
-        public async Task<int> GetTotalDiscsByBoughtYearAsync(int year)
+        public async Task<int> GetTotalDiscsByYearBoughtAsync(int year)
         {
             try
             {
@@ -188,5 +188,36 @@ namespace EfApp.Repositories
                 .Where(r => string.IsNullOrEmpty(r.Review))
                 .ToListAsync();
         }
+
+        public async Task<decimal> GetTotalCostByYearBoughtAsync(int year)
+        {
+            try
+            {
+                var previousYearString = $"{year - 1}-12-31";
+                DateTime previousDate = DateTime.Parse(previousYearString);
+                var endYearString = $"{year + 1}-01-01";
+                DateTime endDate = DateTime.Parse(endYearString);
+
+                return (decimal)await _context.Records
+                    .Where(r => r.Bought > previousDate && r.Bought < endDate)
+                    .SumAsync(r => r.Cost);
+            }
+            catch (Exception ex)
+            {
+                return 0;
+            }
+        }
     }
 }
+
+
+/*
+ select sum(cost) from record where bought > '31-Dec-2021' and bought < '01-Jan-2023'
+  var previousYearString = $"{year - 1}-12-31";
+                DateTime previousDate = DateTime.Parse(previousYearString);
+                var endYearString = $"{year + 1}-01-01";
+                DateTime endDate = DateTime.Parse(endYearString);
+                return await _context.Records
+                    .Where(r => r.Bought > previousDate && r.Bought < endDate)
+                    .SumAsync(r => r.Discs);
+ */

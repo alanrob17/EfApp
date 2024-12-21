@@ -150,20 +150,25 @@ namespace EfApp.Tests
 
             //// Get the Disc Count where Records were bought for a particular Year e.g. 2000
             //int year = 2015;
-            //int total = await _recordService.GetTotalDiscsByBoughtYearAsync(year);
+            //int total = await _recordService.GetTotalDiscsByYearBoughtAsync(year);
             //_appLogger.LogInformation($"Total number of discs bought in {year}: {total} discs.");
 
             //// Get the total number of Record.Review where the Review is not null or empty
             //int total = await _recordService.GetNoRecordReviewCountAsync();
             //_appLogger.LogInformation($"Total number of Records with no Review: {total}.");
 
-            // Get a List of Record with null or empty Review
-            records = await _recordService.GetAllNoReviewRecordsAsync();
-            _appLogger.LogInformation("Records with no Review:");
-            foreach (var currentRecord in records)
-            {
-                _appLogger.LogInformation(currentRecord.ToString());
-            }
+            //// Get a List of Record with null or empty Review
+            //records = await _recordService.GetAllNoReviewRecordsAsync();
+            //_appLogger.LogInformation("Records with no Review:");
+            //foreach (var currentRecord in records)
+            //{
+            //    _appLogger.LogInformation(currentRecord.ToString());
+            //}
+
+            //// Get the total Cost spent for a Year bought e.g. 1974
+            //var year = 1974;
+            //decimal total = await _recordService.GetTotalCostByYearBoughtAsync(year);
+            //_appLogger.LogInformation($"Total cost for {year}: {total:C}.");
         }
 
         private static Dictionary<int, string>? GetRecordDictionary(Dictionary<int, string> recordDictionary, IEnumerable<Record> records)

@@ -27,8 +27,10 @@ namespace EfApp
                 .AddDbContext<AppDbContext>() // Register DbContext
                 .AddScoped<IArtistRepository, ArtistRepository>() // Register repository
                 .AddScoped<IRecordRepository, RecordRepository>()
+                .AddScoped<IStatisticRepository, StatisticRepository>()
                 .AddScoped<ArtistService>() // Register ArtistService
                 .AddScoped<RecordService>() // Register ArtistService
+                .AddScoped<StatisticService>() // Register StatisticService
                 .AddScoped<AppLogger>() // Register AppLogger
                 .AddLogging(loggingBuilder =>
                 {
@@ -41,6 +43,7 @@ namespace EfApp
             {
                 var artistService = scope.ServiceProvider.GetRequiredService<ArtistService>();
                 var recordService = scope.ServiceProvider.GetRequiredService<RecordService>();
+                var statisticService = scope.ServiceProvider.GetRequiredService<StatisticService>();
                 var appLogger = scope.ServiceProvider.GetRequiredService<AppLogger>();
 
                 var artistTest = new ArtistTest(artistService, appLogger);
@@ -51,6 +54,9 @@ namespace EfApp
 
                 var artistRecordTest = new ArtistRecordTest(artistService, recordService, appLogger);
                 await artistRecordTest.RunTestsAsync();
+
+                var statisticTest = new StatisticTest(statisticService, appLogger);
+                await statisticTest.RunTestsAsync();
             }
         }
     }
