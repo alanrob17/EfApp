@@ -23,16 +23,36 @@ namespace EfApp.Tests
 
         public async Task RunTestsAsync()
         {
-            Record record = new();
+            await GetAllRecordsAsync();
+            await AddNewRecordAsync();
+            await GetRecordDropdownListForArtistAsync();
+            await UpdateRecordByIdAsync();
+            await DeleteRecordByIdAsync();
+            await GetRecordByNameAsync();
+            await GetRecordsByYearAsync();
+            await GetTotalNumberOfCDsAsync();
+            await GetTotalNumberOfDiscsAsync();
+            await GetTotalNumberOfRecordsAsync();
+            await GetTotalNumberOfBluraysAsync();
+            await GetTotalNumberOfDVDsAsync();
+            await GetTotalDiscsByYearAsync();
+            await GetTotalDiscsByYearBoughtAsync();
+            await GetNoRecordReviewCountAsync();
+            await GetAllNoReviewRecordsAsync();
+            await GetTotalCostByYearBoughtAsync();
+        }
 
-            //// Get All Records
+        private async Task GetAllRecordsAsync()
+        {
             var records = await _recordService.GetAllRecordsAsync();
             foreach (var currentRecord in records)
             {
                 _appLogger.LogInformation(currentRecord.ToString());
             }
+        }
 
-            //// Add new Record
+        private async Task AddNewRecordAsync()
+        {
             _appLogger.LogInformation("Creating a new record.");
             var artistId = 864;
             string dateString = "2022-01-16";
@@ -55,11 +75,13 @@ namespace EfApp.Tests
             };
 
             await _recordService.AddRecordAsync(newRecord);
+        }
 
-            //// Get the Record dropdown list for an Artist
+        private async Task GetRecordDropdownListForArtistAsync()
+        {
             var recordDictionary = new Dictionary<int, string>();
-            artistId = 114;
-            records = await _recordService.GetArtistRecordsAsync(artistId);
+            var artistId = 114;
+            var records = await _recordService.GetArtistRecordsAsync(artistId);
             recordDictionary = GetRecordDictionary(recordDictionary, records);
 
             if (recordDictionary != null)
@@ -69,16 +91,18 @@ namespace EfApp.Tests
                     _appLogger.LogInformation($"{item.Key} - {item.Value}");
                 }
             }
+        }
 
-            //// Updates a record by RecordId
+        private async Task UpdateRecordByIdAsync()
+        {
             var recordId = 5286;
             var updateRecord = await _recordService.GetRecordByIdAsync(recordId);
             if (updateRecord != null)
             {
                 _appLogger.LogInformation(updateRecord.ToString());
 
-                dateString = "2022-01-21";
-                boughtDate = DateTime.Parse(dateString);
+                string dateString = "2022-01-21";
+                DateTime boughtDate = DateTime.Parse(dateString);
 
                 updateRecord.Name = "A Lot Of Fun Aloud";
                 updateRecord.Field = "Jazz";
@@ -96,76 +120,102 @@ namespace EfApp.Tests
                 await _recordService.UpdateRecordAsync(updateRecord);
                 _appLogger.LogInformation("Record updated.");
             }
+        }
 
-            //// Delete a Record by RecordId
-            recordId = 5285;
-            record = await _recordService.GetRecordByIdAsync(recordId);
+        private async Task DeleteRecordByIdAsync()
+        {
+            var recordId = 5285;
+            var record = await _recordService.GetRecordByIdAsync(recordId);
 
             if (record != null)
             {
                 await _recordService.DeleteRecordAsync(record);
                 _appLogger.LogInformation("Record deleted.");
             }
+        }
 
-            //// Get a Record by its Name
-            records = await _recordService.GetRecordByNameAsync("blonde on Blonde");
+        private async Task GetRecordByNameAsync()
+        {
+            var records = await _recordService.GetRecordByNameAsync("blonde on Blonde");
             foreach (var currentRecord in records)
             {
                 _appLogger.LogInformation(currentRecord.ToString());
             }
+        }
 
-            //// Get Records by year e.g. 1974
+        private async Task GetRecordsByYearAsync()
+        {
             var year = 1974;
-            records = await _recordService.GetRecordsByYearAsync(year);
+            var records = await _recordService.GetRecordsByYearAsync(year);
             foreach (var currentRecord in records)
             {
                 _appLogger.LogInformation(currentRecord.ToString());
             }
+        }
 
-            //// Get Total Number of CD's in my collection
+        private async Task GetTotalNumberOfCDsAsync()
+        {
             int total = await _recordService.GetTotalNumberOfCDsAsync();
             _appLogger.LogInformation($"Total number of CD's: {total}.");
+        }
 
-            //// Get the Total Number Of Discs. This includes all media types.
-            total = await _recordService.GetTotalNumberOfDiscsAsync();
+        private async Task GetTotalNumberOfDiscsAsync()
+        {
+            int total = await _recordService.GetTotalNumberOfDiscsAsync();
             _appLogger.LogInformation($"Total number of Disc's: {total}.");
+        }
 
-            //// Get the Total Number Of Records. Media type is "R"
-            total = await _recordService.GetTotalNumberOfRecordsAsync();
+        private async Task GetTotalNumberOfRecordsAsync()
+        {
+            int total = await _recordService.GetTotalNumberOfRecordsAsync();
             _appLogger.LogInformation($"Total number of Records: {total}.");
+        }
 
-            //// Get the Total Number Of Blurays where Media type contains "Blu-ray"
-            total = await _recordService.GetTotalNumberOfBluraysAsync();
+        private async Task GetTotalNumberOfBluraysAsync()
+        {
+            int total = await _recordService.GetTotalNumberOfBluraysAsync();
             _appLogger.LogInformation($"Total number of Blu-rays: {total}.");
+        }
 
-            //// Get the number of DVD's where Media type is "DVD"
-            total = await _recordService.GetTotalNumberOfDVDsAsync();
+        private async Task GetTotalNumberOfDVDsAsync()
+        {
+            int total = await _recordService.GetTotalNumberOfDVDsAsync();
             _appLogger.LogInformation($"Total number of DVD's: {total}.");
+        }
 
-            ////// Get the sum Disc Count For a particular Year e.g. 1974
-            recordId = 1974;
-            total = await _recordService.GetTotalDiscsByYearAsync(year);
+        private async Task GetTotalDiscsByYearAsync()
+        {
+            var year = 1974;
+            int total = await _recordService.GetTotalDiscsByYearAsync(year);
             _appLogger.LogInformation($"Total number of discs for {year}: {total}.");
+        }
 
-            //// Get the Disc Count where Records were bought for a particular Year e.g. 2000
-            total = 2015;
-            total = await _recordService.GetTotalDiscsByYearBoughtAsync(year);
+        private async Task GetTotalDiscsByYearBoughtAsync()
+        {
+            var year = 2015;
+            int total = await _recordService.GetTotalDiscsByYearBoughtAsync(year);
             _appLogger.LogInformation($"Total number of discs bought in {year}: {total} discs.");
+        }
 
-            //// Get the total number of Record.Review where the Review is not null or empty
-            total = await _recordService.GetNoRecordReviewCountAsync();
+        private async Task GetNoRecordReviewCountAsync()
+        {
+            int total = await _recordService.GetNoRecordReviewCountAsync();
             _appLogger.LogInformation($"Total number of Records with no Review: {total}.");
+        }
 
-            //// Get a List of Record with null or empty Review
-            records = await _recordService.GetAllNoReviewRecordsAsync();
+        private async Task GetAllNoReviewRecordsAsync()
+        {
+            var records = await _recordService.GetAllNoReviewRecordsAsync();
             _appLogger.LogInformation("Records with no Review:");
             foreach (var currentRecord in records)
             {
                 _appLogger.LogInformation(currentRecord.ToString());
             }
+        }
 
-            //// Get the total Cost spent for a Year bought e.g. 1974
-            year = 1974;
+        private async Task GetTotalCostByYearBoughtAsync()
+        {
+            var year = 1974;
             decimal totalCost = await _recordService.GetTotalCostByYearBoughtAsync(year);
             _appLogger.LogInformation($"Total cost for {year}: {totalCost:C}.");
         }
