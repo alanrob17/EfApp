@@ -209,15 +209,3 @@ namespace EfApp.Repositories
         }
     }
 }
-
-
-/*
- select sum(cost) from record where bought > '31-Dec-2021' and bought < '01-Jan-2023'
-  var previousYearString = $"{year - 1}-12-31";
-                DateTime previousDate = DateTime.Parse(previousYearString);
-                var endYearString = $"{year + 1}-01-01";
-                DateTime endDate = DateTime.Parse(endYearString);
-                return await _context.Records
-                    .Where(r => r.Bought > previousDate && r.Bought < endDate)
-                    .SumAsync(r => r.Discs);
- */

@@ -1,5 +1,6 @@
 ﻿using EfApp.Models;
 using EfApp.Services;
+using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -22,63 +23,112 @@ namespace EfApp.Repositories
 
         public async Task<Statistic> GetStatistics()
         {
-            Statistic statistics = new Statistic();
+            var statistics = new Statistic
+            {
+                RockDiscs = await GetTotalDiscsByFieldAsync("Rock"),
+                FolkDiscs = await GetTotalDiscsByFieldAsync("Folk"),
+                AcousticDiscs = await GetTotalDiscsByFieldAsync("Acoustic"),
+                JazzDiscs = await GetTotalDiscsByFieldsAsync(new[] { "Jazz", "Fusion" }),
+                BluesDiscs = await GetTotalDiscsByFieldAsync("Blues"),
+                CountryDiscs = await GetTotalDiscsByFieldAsync("Country"),
+                ClassicalDiscs = await GetTotalDiscsByFieldAsync("Classical"),
+                SoundtrackDiscs = await GetTotalDiscsByFieldAsync("Soundtrack"),
+                FourStarDiscs = await GetCountByRatingAsync("****"),
+                ThreeStarDiscs = await GetCountByRatingAsync("***"),
+                TwoStarDiscs = await GetCountByRatingAsync("**"),
+                OneStarDiscs = await GetCountByRatingAsync("*"),
+                RecordCost = await GetTotalCostByMediaAsync("R"),
+                TotalRecords = await GetTotalDiscsByMediaAsync("R"),
+                CDCost = await GetTotalCostByMediaAsync("CD"),
+                TotalCDs = await GetTotalDiscsByMediaAsync("CD"),
+                AvCDCost = await GetAverageCostByMediaAsync("CD"),
+                TotalCost = (await _context.Records.SumAsync(r => (decimal?)r.Cost)) ?? 0
+            };
 
-            statistics.RockDiscs = _context.Records.Where(r => r.Field == "Rock").Sum(r => r.Discs);
-            statistics.FolkDiscs = _context.Records.Where(r => r.Field == "Folk").Sum(r => r.Discs);
-            statistics.AcousticDiscs = _context.Records.Where(r => r.Field == "Acoustic").Sum(r => r.Discs);
-            statistics.JazzDiscs = _context.Records.Where(r => r.Field == "Jazz" || r.Field == "Fusion").Sum(r => r.Discs);
-            statistics.BluesDiscs = _context.Records.Where(r => r.Field == "Blues").Sum(r => r.Discs);
-            statistics.CountryDiscs = _context.Records.Where(r => r.Field == "Country").Sum(r => r.Discs);
-            statistics.ClassicalDiscs = _context.Records.Where(r => r.Field == "Classical").Sum(r => r.Discs);
-            statistics.SoundtrackDiscs = _context.Records.Where(r => r.Field == "Soundtrack").Sum(r => r.Discs);
-            statistics.FourStarDiscs = _context.Records.Where(r => r.Rating == "****").Count();
-            statistics.ThreeStarDiscs = _context.Records.Where(r => r.Rating == "***").Count();
-            statistics.TwoStarDiscs = _context.Records.Where(r => r.Rating == "**").Count();
-            statistics.OneStarDiscs = _context.Records.Where(r => r.Rating == "*").Count();
-            statistics.RecordCost = _context.Records.Where(r => r.Media == "R").Sum(r => (decimal?)r.Cost) ?? 0;
-            statistics.TotalRecords = _context.Records.Where(r => r.Media == "R").Sum(r => r.Discs);
-            statistics.CDCost = _context.Records.Where(r => r.Media == "CD").Sum(r => (decimal?)r.Cost) ?? 0;
-            statistics.TotalCDs = _context.Records.Where(r => r.Media == "CD").Sum(r => r.Discs);
-            statistics.AvCDCost = _context.Records.Where(r => r.Media == "CD").Average(r => (decimal?)r.Cost) ?? 0;
-            statistics.TotalCost = _context.Records.Sum(r => (decimal?)r.Cost) ?? 0;
-            statistics.Cost2022 = await _recordService.GetTotalCostByYearBoughtAsync(2022);
-            statistics.Discs2022 = await _recordService.GetTotalDiscsByBoughtYearAsync(2022);
-            statistics.Av2022 = GetAverageCostForYearBought(statistics.Cost2022, statistics.Discs2022);
-            statistics.Cost2021 = await _recordService.GetTotalCostByYearBoughtAsync(2021);
-            statistics.Discs2021 = await _recordService.GetTotalDiscsByBoughtYearAsync(2021);
-            statistics.Av2021 = GetAverageCostForYearBought(statistics.Cost2021, statistics.Discs2021);
-            statistics.Cost2020 = await _recordService.GetTotalCostByYearBoughtAsync(2020);
-            statistics.Discs2020 = await _recordService.GetTotalDiscsByBoughtYearAsync(2020);
-            statistics.Av2020 = GetAverageCostForYearBought(statistics.Cost2020, statistics.Discs2020);
-            statistics.Cost2019 = await _recordService.GetTotalCostByYearBoughtAsync(2019);
-            statistics.Discs2019 = await _recordService.GetTotalDiscsByBoughtYearAsync(2019);
-            statistics.Av2019 = GetAverageCostForYearBought(statistics.Cost2019, statistics.Discs2019);
-            statistics.Cost2018 = await _recordService.GetTotalCostByYearBoughtAsync(2018);
-            statistics.Discs2018 = await _recordService.GetTotalDiscsByBoughtYearAsync(2018);
-            statistics.Av2018 = GetAverageCostForYearBought(statistics.Cost2018, statistics.Discs2018);
-            statistics.Cost2017 = await _recordService.GetTotalCostByYearBoughtAsync(2017);
-            statistics.Discs2017 = await _recordService.GetTotalDiscsByBoughtYearAsync(2017);
-            statistics.Av2017 = GetAverageCostForYearBought(statistics.Cost2017, statistics.Discs2017);
+            await SetYearlyStatistics(statistics, 2017, 2022);
 
             return statistics;
         }
 
+        private async Task<int> GetTotalDiscsByFieldAsync(string field)
+        {
+            return await _context.Records.Where(r => r.Field == field).SumAsync(r => r.Discs);
+        }
+
+        private async Task<int> GetTotalDiscsByFieldsAsync(string[] fields)
+        {
+            return await _context.Records.Where(r => fields.Contains(r.Field)).SumAsync(r => r.Discs);
+        }
+
+        private async Task<int> GetCountByRatingAsync(string rating)
+        {
+            return await _context.Records.CountAsync(r => r.Rating == rating);
+        }
+
+        private async Task<decimal> GetTotalCostByMediaAsync(string media)
+        {
+            return (await _context.Records.Where(r => r.Media == media).SumAsync(r => (decimal?)r.Cost)) ?? 0;
+        }
+
+        private async Task<int> GetTotalDiscsByMediaAsync(string media)
+        {
+            return await _context.Records.Where(r => r.Media == media).SumAsync(r => r.Discs);
+        }
+
+        private async Task<decimal> GetAverageCostByMediaAsync(string media)
+        {
+            return (await _context.Records.Where(r => r.Media == media).AverageAsync(r => (decimal?)r.Cost)) ?? 0;
+        }
+
+        private async Task SetYearlyStatistics(Statistic statistics, int startYear, int endYear)
+        {
+            for (int year = startYear; year <= endYear; year++)
+            {
+                var cost = await _recordService.GetTotalCostByYearBoughtAsync(year);
+                var discsCount = await _recordService.GetTotalDiscsByYearBoughtAsync(year);
+                var averageCost = GetAverageCostForYearBought(cost, discsCount);
+
+                switch (year)
+                {
+                    case 2022:
+                        statistics.Cost2022 = cost;
+                        statistics.Discs2022 = discsCount;
+                        statistics.Av2022 = averageCost;
+                        break;
+                    case 2021:
+                        statistics.Cost2021 = cost;
+                        statistics.Discs2021 = discsCount;
+                        statistics.Av2021 = averageCost;
+                        break;
+                    case 2020:
+                        statistics.Cost2020 = cost;
+                        statistics.Discs2020 = discsCount;
+                        statistics.Av2020 = averageCost;
+                        break;
+                    case 2019:
+                        statistics.Cost2019 = cost;
+                        statistics.Discs2019 = discsCount;
+                        statistics.Av2019 = averageCost;
+                        break;
+                    case 2018:
+                        statistics.Cost2018 = cost;
+                        statistics.Discs2018 = discsCount;
+                        statistics.Av2018 = averageCost;
+                        break;
+                    case 2017:
+                        statistics.Cost2017 = cost;
+                        statistics.Discs2017 = discsCount;
+                        statistics.Av2017 = averageCost;
+                        break;
+                }
+            }
+        }
+
         private static decimal GetAverageCostForYearBought(decimal totalCost, int discs)
         {
-            decimal averageCost = 0.00m;
-            // this is to stop a divide by zero error if nothing has been bought
-            if (totalCost > 1)
-            {
-                averageCost = totalCost / (decimal)discs;
-                averageCost = Math.Round(averageCost, 2);
-            }
-            else
-            {
-                averageCost = 0.00m;
-            }
-
-            return averageCost;
+            if (discs == 0) return 0.00m; // Avoid divide by zero
+            decimal averageCost = totalCost / discs;
+            return Math.Round(averageCost, 2);
         }
     }
 }

@@ -27,148 +27,147 @@ namespace EfApp.Tests
 
             //// Get All Records
             var records = await _recordService.GetAllRecordsAsync();
-
-            //foreach (var currentRecord in records)
-            //{
-            //    _appLogger.LogInformation(currentRecord.ToString());
-            //}
+            foreach (var currentRecord in records)
+            {
+                _appLogger.LogInformation(currentRecord.ToString());
+            }
 
             //// Add new Record
-            //_appLogger.LogInformation("Creating a new record.");
-            //var artistId = 864;
-            //string dateString = "2022-01-16";
-            //DateTime boughtDate = DateTime.Parse(dateString);
+            _appLogger.LogInformation("Creating a new record.");
+            var artistId = 864;
+            string dateString = "2022-01-16";
+            DateTime boughtDate = DateTime.Parse(dateString);
 
-            //Record newRecord = new()
-            //{
-            //    ArtistId = artistId,
-            //    Name = "Rockin' the Bass",
-            //    Field = "Rock",
-            //    Recorded = 2019,
-            //    Label = "Wibble",
-            //    Pressing = "Aus",
-            //    Rating = "****",
-            //    Discs = 1,
-            //    Media = "CD",
-            //    Bought = boughtDate,
-            //    Cost = 29.95m,
-            //    Review = "This is James's first album."
-            //};
+            Record newRecord = new()
+            {
+                ArtistId = artistId,
+                Name = "Rockin' the Bass",
+                Field = "Rock",
+                Recorded = 2019,
+                Label = "Wibble",
+                Pressing = "Aus",
+                Rating = "****",
+                Discs = 1,
+                Media = "CD",
+                Bought = boughtDate,
+                Cost = 29.95m,
+                Review = "This is James's first album."
+            };
 
-            //await _recordService.AddRecordAsync(newRecord);
+            await _recordService.AddRecordAsync(newRecord);
 
             //// Get the Record dropdown list for an Artist
-            //var recordDictionary = new Dictionary<int, string>();
-            //var artistId = 114;
-            //records = await _recordService.GetArtistRecordsAsync(artistId);
-            //recordDictionary = GetRecordDictionary(recordDictionary, records);
+            var recordDictionary = new Dictionary<int, string>();
+            artistId = 114;
+            records = await _recordService.GetArtistRecordsAsync(artistId);
+            recordDictionary = GetRecordDictionary(recordDictionary, records);
 
-            //if (recordDictionary != null)
-            //{
-            //    foreach (var item in recordDictionary)
-            //    {
-            //        _appLogger.LogInformation($"{item.Key} - {item.Value}");
-            //    }
-            //}
+            if (recordDictionary != null)
+            {
+                foreach (var item in recordDictionary)
+                {
+                    _appLogger.LogInformation($"{item.Key} - {item.Value}");
+                }
+            }
 
             //// Updates a record by RecordId
-            //var recordId = 5286;
-            //var updateRecord = await _recordService.GetRecordByIdAsync(recordId);
-            //if (updateRecord != null)
-            //{
-            //    _appLogger.LogInformation(updateRecord.ToString());
+            var recordId = 5286;
+            var updateRecord = await _recordService.GetRecordByIdAsync(recordId);
+            if (updateRecord != null)
+            {
+                _appLogger.LogInformation(updateRecord.ToString());
 
-            //    string dateString = "2022-01-21";
-            //    DateTime boughtDate = DateTime.Parse(dateString);
+                dateString = "2022-01-21";
+                boughtDate = DateTime.Parse(dateString);
 
-            //    updateRecord.Name = "A Lot Of Fun Aloud";
-            //    updateRecord.Field = "Jazz";
-            //    updateRecord.Recorded = 2020;
-            //    updateRecord.Label = "Woppo";
-            //    updateRecord.Pressing = "Jap";
-            //    updateRecord.Rating = "***";
-            //    updateRecord.Discs = 1;
-            //    updateRecord.Media = "CD";
-            //    updateRecord.Bought = boughtDate;
-            //    updateRecord.Cost = 23.99m;
-            //    updateRecord.CoverName = null;
-            //    updateRecord.Review = "This is James' second album";
+                updateRecord.Name = "A Lot Of Fun Aloud";
+                updateRecord.Field = "Jazz";
+                updateRecord.Recorded = 2020;
+                updateRecord.Label = "Woppo";
+                updateRecord.Pressing = "Jap";
+                updateRecord.Rating = "***";
+                updateRecord.Discs = 1;
+                updateRecord.Media = "CD";
+                updateRecord.Bought = boughtDate;
+                updateRecord.Cost = 23.99m;
+                updateRecord.CoverName = null;
+                updateRecord.Review = "This is James' second album";
 
-            //    await _recordService.UpdateRecordAsync(updateRecord);
-            //    _appLogger.LogInformation("Record updated.");
-            //}
+                await _recordService.UpdateRecordAsync(updateRecord);
+                _appLogger.LogInformation("Record updated.");
+            }
 
             //// Delete a Record by RecordId
-            //var recordId = 5285;
-            //record = await _recordService.GetRecordByIdAsync(recordId);
+            recordId = 5285;
+            record = await _recordService.GetRecordByIdAsync(recordId);
 
-            //if (record != null)
-            //{
-            //    await _recordService.DeleteRecordAsync(record);
-            //    _appLogger.LogInformation("Record deleted.");
-            //}
+            if (record != null)
+            {
+                await _recordService.DeleteRecordAsync(record);
+                _appLogger.LogInformation("Record deleted.");
+            }
 
             //// Get a Record by its Name
-            //records = await _recordService.GetRecordByNameAsync("blonde on Blonde");
-            //foreach (var currentRecord in records)
-            //{
-            //    _appLogger.LogInformation(currentRecord.ToString());
-            //}
+            records = await _recordService.GetRecordByNameAsync("blonde on Blonde");
+            foreach (var currentRecord in records)
+            {
+                _appLogger.LogInformation(currentRecord.ToString());
+            }
 
             //// Get Records by year e.g. 1974
-            //var year = 1974;
-            //records = await _recordService.GetRecordsByYearAsync(year);
-            //foreach (var currentRecord in records)
-            //{
-            //    _appLogger.LogInformation(currentRecord.ToString());
-            //}
+            var year = 1974;
+            records = await _recordService.GetRecordsByYearAsync(year);
+            foreach (var currentRecord in records)
+            {
+                _appLogger.LogInformation(currentRecord.ToString());
+            }
 
             //// Get Total Number of CD's in my collection
-            //int total = await _recordService.GetTotalNumberOfCDsAsync();
-            //_appLogger.LogInformation($"Total number of CD's: {total}.");
+            int total = await _recordService.GetTotalNumberOfCDsAsync();
+            _appLogger.LogInformation($"Total number of CD's: {total}.");
 
             //// Get the Total Number Of Discs. This includes all media types.
-            //int total = await _recordService.GetTotalNumberOfDiscsAsync();
-            //_appLogger.LogInformation($"Total number of Disc's: {total}.");
+            total = await _recordService.GetTotalNumberOfDiscsAsync();
+            _appLogger.LogInformation($"Total number of Disc's: {total}.");
 
             //// Get the Total Number Of Records. Media type is "R"
-            //int total = await _recordService.GetTotalNumberOfRecordsAsync();
-            //_appLogger.LogInformation($"Total number of Records: {total}.");
+            total = await _recordService.GetTotalNumberOfRecordsAsync();
+            _appLogger.LogInformation($"Total number of Records: {total}.");
 
             //// Get the Total Number Of Blurays where Media type contains "Blu-ray"
-            //int total = await _recordService.GetTotalNumberOfBluraysAsync();
-            //_appLogger.LogInformation($"Total number of Blu-rays: {total}.");
+            total = await _recordService.GetTotalNumberOfBluraysAsync();
+            _appLogger.LogInformation($"Total number of Blu-rays: {total}.");
 
             //// Get the number of DVD's where Media type is "DVD"
-            //int total = await _recordService.GetTotalNumberOfDVDsAsync();
-            //_appLogger.LogInformation($"Total number of DVD's: {total}.");
+            total = await _recordService.GetTotalNumberOfDVDsAsync();
+            _appLogger.LogInformation($"Total number of DVD's: {total}.");
 
             ////// Get the sum Disc Count For a particular Year e.g. 1974
-            //var year = 1974;
-            //int total = await _recordService.GetTotalDiscsByYearAsync(year);
-            //_appLogger.LogInformation($"Total number of discs for {year}: {total}.");
+            recordId = 1974;
+            total = await _recordService.GetTotalDiscsByYearAsync(year);
+            _appLogger.LogInformation($"Total number of discs for {year}: {total}.");
 
             //// Get the Disc Count where Records were bought for a particular Year e.g. 2000
-            //int year = 2015;
-            //int total = await _recordService.GetTotalDiscsByYearBoughtAsync(year);
-            //_appLogger.LogInformation($"Total number of discs bought in {year}: {total} discs.");
+            total = 2015;
+            total = await _recordService.GetTotalDiscsByYearBoughtAsync(year);
+            _appLogger.LogInformation($"Total number of discs bought in {year}: {total} discs.");
 
             //// Get the total number of Record.Review where the Review is not null or empty
-            //int total = await _recordService.GetNoRecordReviewCountAsync();
-            //_appLogger.LogInformation($"Total number of Records with no Review: {total}.");
+            total = await _recordService.GetNoRecordReviewCountAsync();
+            _appLogger.LogInformation($"Total number of Records with no Review: {total}.");
 
             //// Get a List of Record with null or empty Review
-            //records = await _recordService.GetAllNoReviewRecordsAsync();
-            //_appLogger.LogInformation("Records with no Review:");
-            //foreach (var currentRecord in records)
-            //{
-            //    _appLogger.LogInformation(currentRecord.ToString());
-            //}
+            records = await _recordService.GetAllNoReviewRecordsAsync();
+            _appLogger.LogInformation("Records with no Review:");
+            foreach (var currentRecord in records)
+            {
+                _appLogger.LogInformation(currentRecord.ToString());
+            }
 
             //// Get the total Cost spent for a Year bought e.g. 1974
-            //var year = 1974;
-            //decimal total = await _recordService.GetTotalCostByYearBoughtAsync(year);
-            //_appLogger.LogInformation($"Total cost for {year}: {total:C}.");
+            year = 1974;
+            decimal totalCost = await _recordService.GetTotalCostByYearBoughtAsync(year);
+            _appLogger.LogInformation($"Total cost for {year}: {totalCost:C}.");
         }
 
         private static Dictionary<int, string>? GetRecordDictionary(Dictionary<int, string> recordDictionary, IEnumerable<Record> records)

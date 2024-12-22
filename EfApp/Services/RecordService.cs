@@ -92,7 +92,7 @@ namespace EfApp.Services
             return await Task.Run(() => _recordRepository.GetTotalDiscsByYearAsync(year));
         }
 
-        internal async Task<int> GetTotalDiscsByBoughtYearAsync(int year)
+        internal async Task<int> GetTotalDiscsByYearBoughtAsync(int year)
         {
             return await Task.Run(() => _recordRepository.GetTotalDiscsByYearBoughtAsync(year));
         }
