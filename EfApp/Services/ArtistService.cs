@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace EfApp.Services
 {
-    internal class ArtistService
+    public class ArtistService
     {
         private readonly IArtistRepository _artistRepository;
 
@@ -47,22 +47,22 @@ namespace EfApp.Services
             await Task.Run(() => _artistRepository.DeleteAsync(artist));
         }
 
-        internal async Task<int> GetArtistIdAsync(string firstName, string lastName)
+        public async Task<int> GetArtistIdAsync(string firstName, string lastName)
         {
             return await Task.Run(() => _artistRepository.GetArtistIdAsync(firstName, lastName));
         }
 
-        internal async Task<string> GetBiographyByIdAsync(int artistId)
+        public async Task<string> GetBiographyByIdAsync(int artistId)
         {
             return await Task.Run(() => _artistRepository.GetBiographyByIdAsync(artistId));
         }
 
-        internal async Task<IEnumerable<string>> GetArtistsWithNoBioAsync()
+        public async Task<IEnumerable<string>> GetArtistsWithNoBioAsync()
         {
             return await Task.Run(() => _artistRepository.GetArtistsWithNoBioAsync());
         }
 
-        internal async Task<int> GetNoBiographyTotal()
+        public async Task<int> GetNoBiographyTotal()
         {
             return await Task.Run(() => _artistRepository.GetNoBiographyTotal());
         }

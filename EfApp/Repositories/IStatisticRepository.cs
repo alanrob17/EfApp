@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace EfApp.Repositories
 {
-    internal interface IStatisticRepository
+    public interface IStatisticRepository
     {
         Task<Statistic> GetStatistics();
     }

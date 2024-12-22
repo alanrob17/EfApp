@@ -10,7 +10,7 @@ using System.Threading.Tasks;
 
 namespace EfApp.Repositories
 {
-    internal class StatisticRepository : IStatisticRepository
+    public class StatisticRepository : IStatisticRepository
     {
         private readonly RecordService _recordService;
         private readonly AppDbContext _context;

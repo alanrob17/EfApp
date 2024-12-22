@@ -5,7 +5,7 @@ using Microsoft.EntityFrameworkCore;
 
 namespace EfApp.Tests
 {
-    internal class ArtistRecordTest
+    public class ArtistRecordTest
     {
         private readonly ArtistService _artistService;
         private readonly RecordService _recordService;

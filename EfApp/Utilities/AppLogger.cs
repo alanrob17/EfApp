@@ -4,10 +4,11 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using EfApp.Models; // Add this line to specify which 'Record' to use
 
 namespace EfApp.Utilities 
 { 
-    internal class AppLogger
+    public class AppLogger
     {
         private readonly ILogger<AppLogger> _logger;
 

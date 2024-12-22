@@ -9,7 +9,7 @@ using System.Threading.Tasks;
 
 namespace EfApp.Tests
 {
-    internal class StatisticTest
+    public class StatisticTest
     {
         private readonly StatisticService _statisticService;
         private readonly AppLogger _appLogger;

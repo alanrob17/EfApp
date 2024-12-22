@@ -10,7 +10,7 @@ using System.Threading.Tasks;
 
 namespace EfApp.Tests
 {
-    internal class RecordTest
+    public class RecordTest
     {
         private readonly RecordService _recordService;
         private readonly AppLogger _appLogger;

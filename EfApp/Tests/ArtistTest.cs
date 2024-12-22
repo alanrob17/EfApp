@@ -9,7 +9,7 @@ using System.Threading.Tasks;
 
 namespace EfApp.Tests
 {
-    internal class ArtistTest
+    public class ArtistTest
     {
         private readonly ArtistService _artistService;
         private readonly AppLogger _appLogger;

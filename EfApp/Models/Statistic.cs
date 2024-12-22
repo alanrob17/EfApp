@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace EfApp.Models
 {
-    internal class Statistic
+    public class Statistic
     {
         #region " Properties "
 

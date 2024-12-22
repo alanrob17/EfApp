@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace EfApp.Services
 {
-    internal class RecordService
+    public class RecordService
     {
         private readonly IRecordRepository _recordRepository;
 
@@ -27,12 +27,12 @@ namespace EfApp.Services
             return await Task.Run(() => _recordRepository.GetRecordByIdAsync(recordId));
         }
 
-        internal async Task AddRecordAsync(Record record)
+        public async Task AddRecordAsync(Record record)
         {
             await Task.Run(() => _recordRepository.AddRecordAsync(record));
         }
 
-        internal async Task<IEnumerable<Record>> GetArtistRecordsAsync(int artistId)
+        public async Task<IEnumerable<Record>> GetArtistRecordsAsync(int artistId)
         {
             return await Task.Run(() => _recordRepository.GetArtistRecordsAsync(artistId));
         }
@@ -42,72 +42,72 @@ namespace EfApp.Services
             await Task.Run(() => _recordRepository.UpdateAsync(record));
         }
 
-        internal async Task DeleteRecordAsync(Record record)
+        public async Task DeleteRecordAsync(Record record)
         {
             await Task.Run(() => _recordRepository.DeleteAsync(record));
         }
 
-        internal async Task<IEnumerable<Record>> GetRecordByNameAsync(string name)
+        public async Task<IEnumerable<Record>> GetRecordByNameAsync(string name)
         {
             return await Task.Run(() => _recordRepository.GetRecordByNameAsync(name));
         }
 
-        internal async Task<IEnumerable<Record>> GetRecordsByYearAsync(int year)
+        public async Task<IEnumerable<Record>> GetRecordsByYearAsync(int year)
         {
             return await Task.Run(() => _recordRepository.GetRecordsByYearAsync(year));
         }
 
-        internal async Task<int> GetTotalNumberOfCDsAsync()
+        public async Task<int> GetTotalNumberOfCDsAsync()
         {
             return await Task.Run(() => _recordRepository.GetTotalNumberOfCDsAsync());
         }
 
-        internal async Task<int> GetTotalNumberOfDiscsAsync()
+        public async Task<int> GetTotalNumberOfDiscsAsync()
         {
             return await Task.Run(() => _recordRepository.GetTotalNumberOfDiscsAsync());
         }
 
-        internal async Task<int> GetTotalNumberOfRecordsAsync()
+        public async Task<int> GetTotalNumberOfRecordsAsync()
         {
             return await Task.Run(() => _recordRepository.GetTotalNumberOfRecordsAsync());
         }
 
-        internal async Task<int> GetTotalNumberOfBluraysAsync()
+        public async Task<int> GetTotalNumberOfBluraysAsync()
         {
             return await Task.Run(() => _recordRepository.GetTotalNumberOfBluraysAsync());
         }
 
-        internal async Task<int> GetTotalNumberOfDVDsAsync()
+        public async Task<int> GetTotalNumberOfDVDsAsync()
         {
             return await Task.Run(() => _recordRepository.GetTotalNumberOfDVDsAsync());
         }
 
-        internal async Task<int> GetArtistNumberOfRecordsAsync(int artistId)
+        public async Task<int> GetArtistNumberOfRecordsAsync(int artistId)
         {
             return await Task.Run(() => _recordRepository.GetArtistNumberOfRecordsAsync(artistId));
         }
 
-        internal async Task<int> GetTotalDiscsByYearAsync(int year)
+        public async Task<int> GetTotalDiscsByYearAsync(int year)
         {
             return await Task.Run(() => _recordRepository.GetTotalDiscsByYearAsync(year));
         }
 
-        internal async Task<int> GetTotalDiscsByYearBoughtAsync(int year)
+        public async Task<int> GetTotalDiscsByYearBoughtAsync(int year)
         {
             return await Task.Run(() => _recordRepository.GetTotalDiscsByYearBoughtAsync(year));
         }
 
-        internal async Task<int> GetNoRecordReviewCountAsync()
+        public async Task<int> GetNoRecordReviewCountAsync()
         {
             return await Task.Run(() => _recordRepository.GetNoRecordReviewCountAsync());
         }
 
-        internal async Task<IEnumerable<Record>> GetAllNoReviewRecordsAsync()
+        public async Task<IEnumerable<Record>> GetAllNoReviewRecordsAsync()
         {
             return await Task.Run(() => _recordRepository.GetAllNoReviewRecordsAsync());
         }
 
-        internal async Task<decimal> GetTotalCostByYearBoughtAsync(int year)
+        public async Task<decimal> GetTotalCostByYearBoughtAsync(int year)
         {
             return await Task.Run(() => _recordRepository.GetTotalCostByYearBoughtAsync(year));
         }

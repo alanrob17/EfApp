@@ -4,7 +4,7 @@ using EfApp.Utilities;
 
 namespace EfApp.Services
 {
-    internal class StatisticService
+    public class StatisticService
     {
         private readonly IStatisticRepository _statisticRepository;
 
