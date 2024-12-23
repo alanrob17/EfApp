@@ -55,23 +55,23 @@ namespace EfApp.Tests
         {
             _appLogger.LogInformation("Creating a new record.");
             var artistId = 864;
-            string dateString = "2022-01-16";
+            string dateString = "2023-02-17";
             DateTime boughtDate = DateTime.Parse(dateString);
 
             Record newRecord = new()
             {
                 ArtistId = artistId,
-                Name = "Rockin' the Bass",
+                Name = "Bass Extroadinaire!",
                 Field = "Rock",
-                Recorded = 2019,
-                Label = "Wibble",
+                Recorded = 2020,
+                Label = "Wibble Wobble",
                 Pressing = "Aus",
-                Rating = "****",
-                Discs = 1,
+                Rating = "***",
+                Discs = 2,
                 Media = "CD",
                 Bought = boughtDate,
-                Cost = 29.95m,
-                Review = "This is James's first album."
+                Cost = 39.95m,
+                Review = "This is James's second album."
             };
 
             await _recordService.AddRecordAsync(newRecord);
@@ -95,7 +95,7 @@ namespace EfApp.Tests
 
         private async Task UpdateRecordByIdAsync()
         {
-            var recordId = 5286;
+            var recordId = 5287;
             var updateRecord = await _recordService.GetRecordByIdAsync(recordId);
             if (updateRecord != null)
             {
@@ -104,27 +104,31 @@ namespace EfApp.Tests
                 string dateString = "2022-01-21";
                 DateTime boughtDate = DateTime.Parse(dateString);
 
-                updateRecord.Name = "A Lot Of Fun Aloud";
-                updateRecord.Field = "Jazz";
-                updateRecord.Recorded = 2020;
-                updateRecord.Label = "Woppo";
-                updateRecord.Pressing = "Jap";
-                updateRecord.Rating = "***";
+                updateRecord.Name = "Certainly Much Fun Aloud";
+                updateRecord.Field = "Rock";
+                updateRecord.Recorded = 2022;
+                updateRecord.Label = "Woppo Dobbo";
+                updateRecord.Pressing = "Aus";
+                updateRecord.Rating = "****";
                 updateRecord.Discs = 1;
-                updateRecord.Media = "CD";
+                updateRecord.Media = "R";
                 updateRecord.Bought = boughtDate;
-                updateRecord.Cost = 23.99m;
+                updateRecord.Cost = 65.99m;
                 updateRecord.CoverName = null;
-                updateRecord.Review = "This is James' second album";
+                updateRecord.Review = "This is James' third album";
 
                 await _recordService.UpdateRecordAsync(updateRecord);
                 _appLogger.LogInformation("Record updated.");
+            }
+            else
+            {
+                _appLogger.LogInformation("Record not found.");
             }
         }
 
         private async Task DeleteRecordByIdAsync()
         {
-            var recordId = 5285;
+            var recordId = 5287;
             var record = await _recordService.GetRecordByIdAsync(recordId);
 
             if (record != null)

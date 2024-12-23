@@ -26,6 +26,7 @@ namespace EfApp.Tests
             await CreateNewArtistAsync();
             await GetArtistByIdAsync();
             await GetArtistByNameAsync();
+            await UpdateArtistByNameAsync();
             await DeleteArtistAsync();
             await GetArtistDropdownListAsync();
             await GetArtistIdAsync();
@@ -49,10 +50,10 @@ namespace EfApp.Tests
             _appLogger.LogInformation("Creating a new artist.");
             var newArtist = new Artist
             {
-                FirstName = "James",
+                FirstName = "Charley",
                 LastName = "Robson",
-                Name = "James Robson",
-                Biography = "James is a bass player extroadinaire..."
+                Name = "Charley Robson",
+                Biography = "Charley is into Hip-Hop and Trance..."
             };
             await _artistService.AddArtistAsync(newArtist);
         }
@@ -81,24 +82,45 @@ namespace EfApp.Tests
 
         private async Task GetArtistByNameAsync()
         {
-            var artist = await _artistService.GetArtistByNameAsync("Alan Robson");
+            var artist = await _artistService.GetArtistByNameAsync("Charles Robson");
+            if (artist != null) 
+            { 
+                _appLogger.LogInformation(artist.ToString());
+            }
+            else
+            {
+                _appLogger.LogInformation("Artist not found.");
+            }
+        }
+
+        private async Task UpdateArtistByNameAsync()
+        {
+            var artist = await _artistService.GetArtistByNameAsync("James Robson");
             if (artist != null)
             {
                 _appLogger.LogInformation(artist.ToString());
 
                 var updateArtist = artist;
-                updateArtist.FirstName = "Alonzo";
-                updateArtist.LastName = "Robosono";
-                updateArtist.Name = "Alonzo Robosono";
-                updateArtist.Biography = "Alonzo is an Italian Country & Western singer.";
-                await _artistService.UpdateArtistAsync(updateArtist);
-                _appLogger.LogInformation("Artist updated.");
+                updateArtist.FirstName = "James";
+                updateArtist.LastName = "Robson";
+                updateArtist.Name = "James Robson";
+                updateArtist.Biography = "James is a bass guitar player.";
+
+                if (artist.Name == updateArtist.Name)
+                {
+                    _appLogger.LogInformation($"Artist: {updateArtist.Name} is already in the database!");
+                }
+                else
+                {
+                    await _artistService.UpdateArtistAsync(updateArtist);
+                    _appLogger.LogInformation("Artist updated.");
+                }
             }
         }
 
         private async Task DeleteArtistAsync()
         {
-            var artist = await _artistService.GetArtistByNameAsync("Alonzo Robosono");
+            var artist = await _artistService.GetArtistByNameAsync("Charles Robson");
             if (artist != null)
             {
                 await _artistService.DeleteArtistAsync(artist);
