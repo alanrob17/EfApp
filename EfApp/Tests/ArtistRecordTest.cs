@@ -20,14 +20,25 @@ namespace EfApp.Tests
 
         public async Task RunTestsAsync()
         {
+            await GetArtistsAndRecordsAsync();
+            await GetArtistAndRecordsByIdAsync();
+            await GetArtistNumberOfRecordsByIdAsync();
+            await GetRecordByIdAsync();
+            await GetRecordHtmlByIdAsync();
+            await GetArtistNameFromRecordIdAsync();
+            await GetTotalArtistCostAndDiscsAsync();
+            await GetEachArtistTotalDiscsAsync();
+        }
+
+        private async Task GetArtistsAndRecordsAsync()
+        {
             var artists = await _artistService.GetAllArtistsAsync();
             var records = await _recordService.GetAllRecordsAsync();
 
-            //// Get a list of Artists and their Records in descening order
             var orderedArtists = artists
-                    .OrderBy(a => a.LastName)
-                    .ThenBy(a => a.FirstName)
-                    .ToList();
+                .OrderBy(a => a.LastName)
+                .ThenBy(a => a.FirstName)
+                .ToList();
 
             foreach (var currentArtist in orderedArtists)
             {
@@ -43,8 +54,10 @@ namespace EfApp.Tests
                     _appLogger.LogInformation($"{currentRecord.Recorded} - {currentRecord.Name}");
                 }
             }
+        }
 
-            //// Get an Artist and their Records by ArtistId
+        private async Task GetArtistAndRecordsByIdAsync()
+        {
             var artistId = 114;
             var artist = await _artistService.GetArtistByIdAsync(artistId);
             var artistRecords = await _recordService.GetArtistRecordsAsync(artistId);
@@ -54,19 +67,23 @@ namespace EfApp.Tests
             {
                 _appLogger.LogInformation(currentRecord.ToString());
             }
+        }
 
-            //// Get Artist's Number of Records by artistId
-            artistId = 114;
-            artist = await _artistService.GetArtistByIdAsync(artistId);
+        private async Task GetArtistNumberOfRecordsByIdAsync()
+        {
+            var artistId = 114;
+            var artist = await _artistService.GetArtistByIdAsync(artistId);
             int total = await _recordService.GetArtistNumberOfRecordsAsync(artistId);
             _appLogger.LogInformation($"Total number of Records for Artist: {artist.Name}: {total} discs.");
+        }
 
-            //// Get Record by recordId 
+        private async Task GetRecordByIdAsync()
+        {
             var recordId = 2196;
             var record = await _recordService.GetRecordByIdAsync(recordId);
             if (record != null)
             {
-                artist = await _artistService.GetArtistByIdAsync(record.ArtistId);
+                var artist = await _artistService.GetArtistByIdAsync(record.ArtistId);
                 if (artist != null)
                 {
                     _appLogger.LogInformation($"Artist: {artist.Name}");
@@ -77,13 +94,15 @@ namespace EfApp.Tests
             {
                 _appLogger.LogInformation("No Record found for this RecordId.");
             }
+        }
 
-            //// Get the Html for a record found by recordId
-            artistId = 2196;
-            record = await _recordService.GetRecordByIdAsync(recordId);
+        private async Task GetRecordHtmlByIdAsync()
+        {
+            var recordId = 2196;
+            var record = await _recordService.GetRecordByIdAsync(recordId);
             if (record != null)
             {
-                artist = await _artistService.GetArtistByIdAsync(record.ArtistId);
+                var artist = await _artistService.GetArtistByIdAsync(record.ArtistId);
                 if (artist != null)
                 {
                     _appLogger.LogInformation($"<p><strong>ArtistId:</strong> {artist.ArtistId}</p>\n<p><strong>Artist:</strong> {artist.Name}</p>\n<p><strong>RecordId:</strong> {record.RecordId}</p>\n<p><strong>Recorded:</strong> {record.Recorded}</p>\n<p><strong>Name:</strong> {record.Name}</p>\n<p><strong>Rating:</strong> {record.Rating}</p>\n<p><strong>Media:</strong> {record.Media}</p>\n");
@@ -93,14 +112,21 @@ namespace EfApp.Tests
             {
                 _appLogger.LogInformation("No Record found for this RecordId.");
             }
+        }
 
-            //// Get an Artist Name From a recordId
-            artistId = 2196;
-            record = await _recordService.GetRecordByIdAsync(recordId);
-            artist = await _artistService.GetArtistByIdAsync(record.ArtistId);
+        private async Task GetArtistNameFromRecordIdAsync()
+        {
+            var recordId = 2196;
+            var record = await _recordService.GetRecordByIdAsync(recordId);
+            var artist = await _artistService.GetArtistByIdAsync(record.ArtistId);
             _appLogger.LogInformation($"Artist: {artist.Name}");
+        }
 
-            //// Get the Total Artist Cost and number of Discs for each artist
+        private async Task GetTotalArtistCostAndDiscsAsync()
+        {
+            var artists = await _artistService.GetAllArtistsAsync();
+            var records = await _recordService.GetAllRecordsAsync();
+
             var result = from a in artists
                          join r in records
                          on a.ArtistId equals r.ArtistId
@@ -119,20 +145,25 @@ namespace EfApp.Tests
             {
                 _appLogger.LogInformation($"{currentArtist.Name} - {currentArtist.TotalDiscs} discs - ${currentArtist.TotalCost:F2}");
             }
+        }
 
-            //// Get each artist's total number of discs
+        private async Task GetEachArtistTotalDiscsAsync()
+        {
+            var artists = await _artistService.GetAllArtistsAsync();
+            var records = await _recordService.GetAllRecordsAsync();
+
             var results = from a in artists
-                         join r in records on a.ArtistId equals r.ArtistId
-                         group r by new { a.ArtistId, a.FirstName, a.LastName, a.Name } into g
-                         orderby g.Key.LastName, g.Key.FirstName
-                         select new
-                         {
-                             g.Key.ArtistId,
-                             g.Key.FirstName,
-                             g.Key.LastName,
-                             g.Key.Name,
-                             Discs = g.Sum(r => r.Discs)
-                         };
+                          join r in records on a.ArtistId equals r.ArtistId
+                          group r by new { a.ArtistId, a.FirstName, a.LastName, a.Name } into g
+                          orderby g.Key.LastName, g.Key.FirstName
+                          select new
+                          {
+                              g.Key.ArtistId,
+                              g.Key.FirstName,
+                              g.Key.LastName,
+                              g.Key.Name,
+                              Discs = g.Sum(r => r.Discs)
+                          };
 
             foreach (var currentArtist in results)
             {

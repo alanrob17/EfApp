@@ -22,22 +22,44 @@ namespace EfApp.Tests
 
         public async Task RunTestsAsync()
         {
-            Artist artist = new();
+            await GetAllArtistsAsync();
+            await CreateNewArtistAsync();
+            await GetArtistByIdAsync();
+            await GetArtistByNameAsync();
+            await DeleteArtistAsync();
+            await GetArtistDropdownListAsync();
+            await GetArtistIdAsync();
+            await GetBiographyByIdAsync();
+            await GetArtistsWithNoBioAsync();
+            await GetNoBiographyTotalAsync();
+            await WriteArtistHtmlAsync();
+        }
 
-            //// Get all Artists
+        private async Task GetAllArtistsAsync()
+        {
             var artists = await _artistService.GetAllArtistsAsync();
             foreach (var currentArtist in artists)
             {
                 _appLogger.LogInformation(currentArtist.ToString());
             }
+        }
 
-            //// Create new Artist
+        private async Task CreateNewArtistAsync()
+        {
             _appLogger.LogInformation("Creating a new artist.");
-            var newArtist = new Artist { FirstName = "James", LastName = "Robson", Name = "James Robson", Biography = "James is a bass player extroadinaire..." };
+            var newArtist = new Artist
+            {
+                FirstName = "James",
+                LastName = "Robson",
+                Name = "James Robson",
+                Biography = "James is a bass player extroadinaire..."
+            };
             await _artistService.AddArtistAsync(newArtist);
+        }
 
-            //// Get Artist by Id
-            artist = await _artistService.GetArtistByIdAsync(114);
+        private async Task GetArtistByIdAsync()
+        {
+            var artist = await _artistService.GetArtistByIdAsync(114);
             if (artist != null)
             {
                 _appLogger.LogInformation(artist.ToString());
@@ -55,9 +77,11 @@ namespace EfApp.Tests
                     _appLogger.LogInformation("No records found for this artist.");
                 }
             }
+        }
 
-            //// Get Artist by name
-            artist = await _artistService.GetArtistByNameAsync("Alan Robson");
+        private async Task GetArtistByNameAsync()
+        {
+            var artist = await _artistService.GetArtistByNameAsync("Alan Robson");
             if (artist != null)
             {
                 _appLogger.LogInformation(artist.ToString());
@@ -70,48 +94,63 @@ namespace EfApp.Tests
                 await _artistService.UpdateArtistAsync(updateArtist);
                 _appLogger.LogInformation("Artist updated.");
             }
+        }
 
-            //// Delete an Artist
-            artist = await _artistService.GetArtistByNameAsync("Alonzo Robosono");
+        private async Task DeleteArtistAsync()
+        {
+            var artist = await _artistService.GetArtistByNameAsync("Alonzo Robosono");
             if (artist != null)
             {
                 await _artistService.DeleteArtistAsync(artist);
                 _appLogger.LogInformation("Artist deleted.");
             }
+        }
 
-            //// Get Artist dropdown list
-            var artistDictionary = new Dictionary<int, string>();
-
-            artistDictionary = GetArtistDictionary(artistDictionary, artists);
+        private async Task GetArtistDropdownListAsync()
+        {
+            var artists = await _artistService.GetAllArtistsAsync();
+            var artistDictionary = GetArtistDictionary(new Dictionary<int, string>(), artists);
 
             foreach (var item in artistDictionary)
             {
                 _appLogger.LogInformation($"{item.Key} - {item.Value}");
             }
+        }
 
-            //// Get Artist by Id
+        private async Task GetArtistIdAsync()
+        {
             var artistId = await _artistService.GetArtistIdAsync("Bob", "Dylan");
             _appLogger.LogInformation(artistId.ToString());
+        }
 
-            //// Get Biography by artistId
+        private async Task GetBiographyByIdAsync()
+        {
             var biography = await _artistService.GetBiographyByIdAsync(114);
             _appLogger.LogInformation($"Biography:\n{biography}");
+        }
 
-            //// Get a list of artists with no biography
-            IEnumerable<string> names = await _artistService.GetArtistsWithNoBioAsync();
+        private async Task GetArtistsWithNoBioAsync()
+        {
+            var names = await _artistService.GetArtistsWithNoBioAsync();
             foreach (var name in names)
             {
                 _appLogger.LogInformation(name);
             }
+        }
 
-            //// Get the number of Artists with no biography
+        private async Task GetNoBiographyTotalAsync()
+        {
             var total = await _artistService.GetNoBiographyTotal();
             _appLogger.LogInformation(total.ToString());
+        }
 
-            // Write Artist Html
-            artistId = 114;
-            artist = await _artistService.GetArtistByIdAsync(artistId);
-            var message = artist?.ArtistId > 0 ? $"<p><strong>Id:</strong> {artist.ArtistId}</p>\n<p><strong>Name:</strong> {artist.FirstName} {artist.LastName}</p>\n<p><strong>Biography:</strong></p>\n<div>{artist.Biography}</p></div>" : "ERROR: Artist not found!";
+        private async Task WriteArtistHtmlAsync()
+        {
+            var artistId = 114;
+            var artist = await _artistService.GetArtistByIdAsync(artistId);
+            var message = artist?.ArtistId > 0
+                ? $"<p><strong>Id:</strong> {artist.ArtistId}</p>\n<p><strong>Name:</strong> {artist.FirstName} {artist.LastName}</p>\n<p><strong>Biography:</strong></p>\n<div>{artist.Biography}</p></div>"
+                : "ERROR: Artist not found!";
             _appLogger.LogInformation(message);
         }
 
@@ -137,8 +176,5 @@ namespace EfApp.Tests
 
             return artistDictionary;
         }
-
-
-
     }
 }
